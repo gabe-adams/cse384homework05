@@ -2,6 +2,8 @@
 #include <unistd.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <sys/types.h>
+#include <dirent.h>
 #include "monitor.h"
 //called when no cmdline options or arguments are given
 void printUsage(char* name){
@@ -53,6 +55,20 @@ int main(int argc, char* argv[]){
 	if(opt_h){
 		printHelp();
 		return EXIT_FAILURE;
+	}
+
+	if(opt_d){
+		DIR* dir = opendir(opt_d_arg);
+		if (dir)
+		{
+		    /* Directory exists. */
+		    closedir(dir);
+		}
+		else if (ENOENT == errno)
+		{
+		    printf("The chosen backup directory does not exit.\n");
+		    return EXIT_FAILURE;
+		}
 	}
 	//found in monitor.c 
 	startWatch(opt_m, opt_t, opt_d, opt_d_arg, argv[optind]);
