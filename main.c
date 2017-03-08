@@ -5,7 +5,7 @@
 #include "monitor.h"
 //called when no cmdline options or arguments are given
 void printUsage(char* name){
-	printf("USAGE: ./%s (-h)(-m)(-t)(-d arg) FILENAME\n", name);
+	printf("USAGE: %s (-h)(-m)(-t)(-d arg) FILENAME\n", name);
 }
 
 void printHelp(){
@@ -26,6 +26,12 @@ int main(int argc, char* argv[]){
 	bool opt_h = false; bool opt_d = false; bool opt_m = false; bool opt_t = false;
 	char* opt_d_arg;
 	int opt = 0;
+
+	if(argc == 1){
+		printUsage(argv[0]);
+		return EXIT_FAILURE;
+	}
+
 	while((opt = getopt(argc, argv, "hmtd:")) != -1){
 		switch(opt){
 			case 'h': opt_h = true; 
@@ -38,7 +44,7 @@ int main(int argc, char* argv[]){
 				opt_d_arg = optarg;
 				break;
 			default:
-			printUsage(argv[0]);
+			//printUsage(argv[0]);
 			return EXIT_FAILURE;
 		}
 	}
@@ -47,7 +53,7 @@ int main(int argc, char* argv[]){
 		printHelp();
 		return EXIT_FAILURE;
 	}
-
+	//found in monitor.c 
 	startWatch(opt_m, opt_t, opt_d, opt_d_arg, argv[optind]);
 
 	return EXIT_SUCCESS;
