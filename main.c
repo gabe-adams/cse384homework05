@@ -2,7 +2,7 @@
 #include <unistd.h>
 #include <stdbool.h>
 #include <stdio.h>
-
+#include "monitor.h"
 //called when no cmdline options or arguments are given
 void printUsage(char* name){
 	printf("USAGE: ./%s (-h)(-m)(-t)(-d arg) FILENAME\n", name);
@@ -45,10 +45,10 @@ int main(int argc, char* argv[]){
 
 	if(opt_h){
 		printHelp();
-		return EXIT_SUCCESS;
+		return EXIT_FAILURE;
 	}
 
-	//pass flags and optarg to business logic method
+	startWatch(opt_m, opt_t, opt_d, opt_d_arg, argv[optind]);
 
 	return EXIT_SUCCESS;
 }

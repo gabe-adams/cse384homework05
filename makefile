@@ -1,6 +1,6 @@
 #makefile for main.c/homework5
 hw5: main.c
-	gcc -o hw5 main.c
+	gcc -o hw5 main.c monitor.c
 
 clean:
 	rm hw5
