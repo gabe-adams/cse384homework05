@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <linux/limits.h>
 #include <string.h>
+#include <errno.h>
+#include <stdlib.h>
 #define MAX_PATH 4096
 size_t revNum = 0;
 
@@ -25,7 +27,7 @@ char* createCopyName(char* backupPath, bool opt_t, char* fileName){
 }
  
 //source: http://www.sanfoundry.com/c-program-copy-file/
-void createBackup(char* fileName, char* backupPath, bool opt_m, bool opt_t)
+int createBackup(char* fileName, char* backupPath, bool opt_m, bool opt_t)
 {
     FILE *fp1, *fp2;
     char ch;
@@ -35,7 +37,7 @@ void createBackup(char* fileName, char* backupPath, bool opt_m, bool opt_t)
     if ((fp1 = fopen(fileName,"r")) == NULL)    
     {    
         printf("\nFile cannot be opened");
-        return;
+        return EXIT_FAILURE;
 
     }
     else     
@@ -45,7 +47,8 @@ void createBackup(char* fileName, char* backupPath, bool opt_m, bool opt_t)
 
     fp2 = fopen(copyName, "w");  
     if(fp2 == NULL){
-    	printf("yer fucked\n");
+    	perror("fopen: ");
+    	return EXIT_FAILURE;
     }
 
     fseek(fp1, 0L, SEEK_END); // file pointer at end of file

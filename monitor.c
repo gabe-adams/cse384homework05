@@ -38,6 +38,7 @@ int startWatch(bool opt_m, bool opt_t, bool opt_d,
 		}
 	else{
 		//watch successful, first create backup copy of file 
+		createBackup(fileName, backupPath, opt_m, opt_t);
 		while(1)
 		{
 			int x = read(fd, buffer, EVENT_BUF_LEN);
@@ -56,6 +57,7 @@ int startWatch(bool opt_m, bool opt_t, bool opt_d,
 					else if((event->mask & IN_DELETE_SELF) != 0){
 						printf("File has been deleted\n");
 						//call out to exit the program
+						return EXIT_SUCCESS;
 					}
 					p += sizeof(struct inotify_event) + event->len; 
 				}
