@@ -8,6 +8,18 @@ void printUsage(char* name){
 	printf("USAGE: ./%s (-h)(-m)(-t)(-d arg) FILENAME\n", name);
 }
 
+void printHelp(){
+		printf("-----------------------------------\n");
+		printf("Helpful information for Homework 05\n");
+		printf("-----------------------------------\n");
+		printf("This program is used to create a backup and track changes of an existing file.\n");
+		printf("-----------OPTIONS-----------------\n");
+		printf("h: display this information page and exit the program\n");
+		printf("m: disable meta-data duplication\n");
+		printf("t: append duplication time to file name\n");
+		printf("d: customize backup location. accepts an argument that is a path to backup folder\n");
+}
+
 int main(int argc, char* argv[]){
 
 	//initialize cmdline options
@@ -27,21 +39,12 @@ int main(int argc, char* argv[]){
 				break;
 			default:
 			printUsage(argv[0]);
-			printf("hello\n");
 			return EXIT_FAILURE;
 		}
 	}
 
 	if(opt_h){
-		printf("-----------------------------------\n");
-		printf("Helpful information for Homework 05\n");
-		printf("-----------------------------------\n");
-		printf("This program is used to create a backup and track changes of an existing file.\n");
-		printf("-----------OPTIONS-----------------\n");
-		printf("h: display this information page and exit the program\n");
-		printf("m: disable meta-data duplication\n");
-		printf("t: append duplication time to file name\n");
-		printf("d: customize backup location. accepts an argument that is a path to backup folder\n");
+		printHelp();
 		return EXIT_SUCCESS;
 	}
 
