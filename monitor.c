@@ -7,6 +7,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdbool.h>
+#include "backup.h"
 //source: thegeekstuff.com/2010/04/inotify-c-program-example/
 #define EVENT_SIZE ( sizeof (struct inotify_event) )
 #define EVENT_BUF_LEN (1024 * (EVENT_SIZE + 16) )
@@ -16,6 +17,12 @@ int startWatch(bool opt_m, bool opt_t, bool opt_d,
 {
 	char buffer[EVENT_BUF_LEN];
 	char* p;
+	char* backupPath;
+
+	if(opt_d)
+		backupPath = opt_d_arg;
+	else
+		backupPath = "backups";
 
 	int fd = inotify_init();
 	if(fd == -1){
@@ -44,7 +51,7 @@ int startWatch(bool opt_m, bool opt_t, bool opt_d,
 					struct inotify_event* event = (struct inotify_event*) p;
 					if((event->mask & IN_MODIFY) != 0){
 						printf("Content has been modified\n");
-						//call out to update backup
+						createBackup(fileName, backupPath, opt_m, opt_t);
 					}
 					else if((event->mask & IN_DELETE_SELF) != 0){
 						printf("File has been deleted\n");

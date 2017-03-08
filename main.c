@@ -44,6 +44,7 @@ int main(int argc, char* argv[]){
 				opt_d_arg = optarg;
 				break;
 			default:
+			//doesn't hit here. usage taken care of before while loop
 			//printUsage(argv[0]);
 			return EXIT_FAILURE;
 		}
