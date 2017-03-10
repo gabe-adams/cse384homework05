@@ -6,6 +6,7 @@
 #include <string.h>
 #include <errno.h>
 #include <stdlib.h>
+#include <time.h>
 #define MAX_PATH 4096
 size_t revNum;
 char* createCopyName(char* backupPath, bool opt_t, char* fileName);

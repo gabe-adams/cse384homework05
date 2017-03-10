@@ -4,6 +4,7 @@
 #include <string.h>
 #include <errno.h>
 #include <stdlib.h>
+#include <time.h>
 #define MAX_PATH 4096
 size_t revNum = 0;
 
@@ -11,7 +12,21 @@ char* createCopyName(char* backupPath, bool opt_t, char* fileName){
 	printf("got here\n");
 	if(opt_t){
 		//append ISO instead of rev
-		return "notDone";
+		time_t rawtime;
+		struct tm* curTime;
+		char time_buff [25];
+		time(&rawtime);
+		curTime = localtime(&rawtime);
+		strftime(time_buff,25,"%FT%H%M%S", curTime);
+		char buffer[MAX_PATH+25];
+		strcpy(buffer,backupPath);
+		strcat(buffer, "/");
+		strcat(buffer, fileName);
+		strcat(buffer, time_buff);
+		
+		cahr* copyName = buffer;
+		
+		return copyName;
 	}else{
 		revNum += 1;
 		char rev_buf[10];
