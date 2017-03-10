@@ -3,7 +3,7 @@
 #include <sys/inotify.h> //for notification/ watching files
 #include <string.h> //for error string
 #include <errno.h> //for error handling
-#include <sys/stat.h>
+#include <sys/stat.h> 
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdbool.h>
@@ -50,12 +50,15 @@ int startWatch(bool opt_m, bool opt_t, bool opt_d,
 			
 				for( p = buffer; p < buffer + x;){
 					struct inotify_event* event = (struct inotify_event*) p;
+					printf("Modify: %#08x\n", event->mask & IN_MODIFY);
 					if((event->mask & IN_MODIFY) != 0){
+						//This if never gets entered when modifying a file, seems that inotify is never setting the IN_MODIFY flag for the file we are watching
 						printf("%s has been modified\n", fileName);
 						//Create new backups everytime file 'fileName' has been modified
 						createBackup(fileName, backupPath, opt_m, opt_t);
 					}
 					else if((event->mask & IN_DELETE_SELF) != 0){
+						//Works if file is deleted (from Trash and directory)
 						printf("DEBUG: There is an error here... if you are editing the file and resave it, it thinks that the file was deleted and ends the program.\n");
 						printf("File has been deleted\n");
 						printf("DeleteSelf: %#08x\n", event->mask & IN_DELETE_SELF); //prints value in hex
