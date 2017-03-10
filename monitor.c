@@ -57,8 +57,9 @@ int startWatch(bool opt_m, bool opt_t, bool opt_d,
 					}
 					else if((event->mask & IN_DELETE_SELF) != 0){
 						printf("DEBUG: There is an error here... if you are editing the file and resave it, it thinks that the file was deleted and ends the program.\n");
-//This definitely happens to me in gedit, could be just gedit deletes and recreates the file? In any case, we still have to fix this bug.
 						printf("File has been deleted\n");
+						printf("DeleteSelf: %#08x\n", event->mask & IN_DELETE_SELF); //prints value in hex
+						printf("Modify: %#08x\n", event->mask & IN_MODIFY); //prints value in hex
 						//call out to exit the program
 						return EXIT_SUCCESS;
 					}
