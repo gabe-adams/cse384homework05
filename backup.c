@@ -5,11 +5,12 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <time.h>
+#include <sys/stat.h>
 #define MAX_PATH 4096
 size_t revNum = 0;
 
 char* createCopyName(char* backupPath, bool opt_t, char* fileName){
-	printf("got here\n");
+	printf("DEBUG: got here\n");
 	if(opt_t){
 		//append ISO instead of rev
 		time_t rawtime;
@@ -28,9 +29,9 @@ char* createCopyName(char* backupPath, bool opt_t, char* fileName){
 		
 		return copyName;
 	}else{
-		revNum += 1;
 		char rev_buf[10];
 		sprintf(rev_buf, "_rev%d", revNum);
+		revNum += 1;
 		char buffer[MAX_PATH+6];
 		strcpy(buffer, backupPath);
 		strcat(buffer, "/");
@@ -47,6 +48,8 @@ int createBackup(char* fileName, char* backupPath, bool opt_m, bool opt_t)
     FILE *fp1, *fp2;
     char ch;
     int pos;
+    int makeDir;
+    struct stat st = {0};
     char* copyName =  createCopyName(backupPath, opt_t, fileName);
     printf("copyName = %s", copyName);
     if ((fp1 = fopen(fileName,"r")) == NULL)    
@@ -57,17 +60,27 @@ int createBackup(char* fileName, char* backupPath, bool opt_m, bool opt_t)
     }
     else     
     {
-        printf("\nFile opened for copy...\n ");    
+        printf("\nFile opened for copy...\n");    
     }
-
-	printf("Must create directory, if DNE\n"); 
+ 	
+ 	//Source: stackoverflow.com/questions/7430248/creating-a-new-directory-min-c
+	if(stat(backupPath, &st) == -1){
+		makeDir = mkdir(backupPath, 0700);
+		if(makeDir == -1){
+			perror("mkdir: ");
+			return EXIT_FAILURE;
+		}else{
+			printf("DEBUG: Directory created.\n");
+		}
+	}
+	
     fp2 = fopen(copyName, "w"); 
     
     if(fp2 == NULL){
     	perror("fopen: ");
     	return EXIT_FAILURE;
     }
-	printf("got here\n");
+	printf("DEBUG: got here\n");
     fseek(fp1, 0L, SEEK_END); // file pointer at end of file
 
     pos = ftell(fp1);
