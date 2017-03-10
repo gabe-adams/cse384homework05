@@ -1,4 +1,5 @@
-#include <stdlib.h> //for exit succes
+#include <stdlib.h> //for exit success
+#include <errno.h>
 #include <unistd.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -72,6 +73,6 @@ int main(int argc, char* argv[]){
 	}
 	//found in monitor.c 
 	startWatch(opt_m, opt_t, opt_d, opt_d_arg, argv[optind]);
-
+	
 	return EXIT_SUCCESS;
 }

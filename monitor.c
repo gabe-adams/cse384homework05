@@ -37,7 +37,7 @@ int startWatch(bool opt_m, bool opt_t, bool opt_d,
 			return EXIT_FAILURE;
 		}
 	else{
-		//watch successful, first create backup copy of file 
+		//watch successful, create original backup copy of file 
 		createBackup(fileName, backupPath, opt_m, opt_t);
 		while(1)
 		{
@@ -51,11 +51,13 @@ int startWatch(bool opt_m, bool opt_t, bool opt_d,
 				for( p = buffer; p < buffer + x;){
 					struct inotify_event* event = (struct inotify_event*) p;
 					if((event->mask & IN_MODIFY) != 0){
-						printf("Content has been modified\n");
+						printf("%s has been modified\n", fileName);
+						//Create new backups everytime file 'fileName' has been modified
 						createBackup(fileName, backupPath, opt_m, opt_t);
 					}
 					else if((event->mask & IN_DELETE_SELF) != 0){
 						printf("DEBUG: There is an error here... if you are editing the file and resave it, it thinks that the file was deleted and ends the program.\n");
+//This definitely happens to me in gedit, could be just gedit deletes and recreates the file? In any case, we still have to fix this bug.
 						printf("File has been deleted\n");
 						//call out to exit the program
 						return EXIT_SUCCESS;
