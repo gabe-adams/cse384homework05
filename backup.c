@@ -24,7 +24,7 @@ char* createCopyName(char* backupPath, bool opt_t, char* fileName){
 		strcat(buffer, fileName);
 		strcat(buffer, time_buff);
 		
-		cahr* copyName = buffer;
+		char* copyName = buffer;
 		
 		return copyName;
 	}else{
