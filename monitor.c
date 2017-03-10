@@ -47,7 +47,7 @@ int startWatch(bool opt_m, bool opt_t, bool opt_d,
 				return	EXIT_FAILURE;
 			}
 			else{
-				
+			
 				for( p = buffer; p < buffer + x;){
 					struct inotify_event* event = (struct inotify_event*) p;
 					if((event->mask & IN_MODIFY) != 0){

@@ -60,12 +60,14 @@ int createBackup(char* fileName, char* backupPath, bool opt_m, bool opt_t)
         printf("\nFile opened for copy...\n ");    
     }
 
-    fp2 = fopen(copyName, "w");  
+	printf("Must create directory, if DNE\n"); 
+    fp2 = fopen(copyName, "w"); 
+    
     if(fp2 == NULL){
     	perror("fopen: ");
     	return EXIT_FAILURE;
     }
-
+	printf("got here\n");
     fseek(fp1, 0L, SEEK_END); // file pointer at end of file
 
     pos = ftell(fp1);
