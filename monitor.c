@@ -55,6 +55,7 @@ int startWatch(bool opt_m, bool opt_t, bool opt_d,
 						createBackup(fileName, backupPath, opt_m, opt_t);
 					}
 					else if((event->mask & IN_DELETE_SELF) != 0){
+						printf("DEBUG: There is an error here... if you are editing the file and resave it, it thinks that the file was deleted and ends the program.\n");
 						printf("File has been deleted\n");
 						//call out to exit the program
 						return EXIT_SUCCESS;
