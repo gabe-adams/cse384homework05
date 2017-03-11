@@ -85,7 +85,7 @@ int createBackup(char* fileName, char* backupPath, bool opt_m, bool opt_t)
     
     if(fseekCheck != 0){
     	printf("fseek failed.");
-    	return EXIT_FAULURE;
+    	return EXIT_FAILURE;
     }
 
     pos = ftell(fp1);
@@ -94,7 +94,7 @@ int createBackup(char* fileName, char* backupPath, bool opt_m, bool opt_t)
     
     if(fseekCheck != 0){
     	printf("fseek failed.");
-    	return EXIT_FAULURE;
+    	return EXIT_FAILURE;
     }
 
     while (pos--)
