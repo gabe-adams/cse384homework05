@@ -50,6 +50,11 @@ int createBackup(char* fileName, char* backupPath, bool opt_m, bool opt_t)
     int fseekCheck;
     int makeDir;
     struct stat st = {0};
+    
+    if(opt_m){
+    	//Do opt_m things
+    }
+    
     char* copyName =  createCopyName(backupPath, opt_t, fileName);
     printf("copyName = %s", copyName);
     if ((fp1 = fopen(fileName,"r")) == NULL)    
