@@ -71,7 +71,9 @@ int main(int argc, char* argv[]){
 		}
 	}
 	//found in monitor.c
-	startWatch(opt_m, opt_t, opt_d, opt_d_arg, argv[optind]);
+	if(startWatch(opt_m, opt_t, opt_d, opt_d_arg, argv[optind]) == EXIT_FAILURE){
+		return EXIT_FAILURE;
+	}
 	
 	return EXIT_SUCCESS;
 }
