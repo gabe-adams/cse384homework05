@@ -10,7 +10,6 @@
 size_t revNum = 0;
 
 char* createCopyName(char* backupPath, bool opt_t, char* fileName){
-	printf("DEBUG: got here\n");
 	if(opt_t){
 		//append ISO instead of rev
 		time_t rawtime;
@@ -48,6 +47,7 @@ int createBackup(char* fileName, char* backupPath, bool opt_m, bool opt_t)
     FILE *fp1, *fp2;
     char ch;
     int pos;
+    int fseekCheck;
     int makeDir;
     struct stat st = {0};
     char* copyName =  createCopyName(backupPath, opt_t, fileName);
@@ -80,12 +80,22 @@ int createBackup(char* fileName, char* backupPath, bool opt_m, bool opt_t)
     	perror("fopen: ");
     	return EXIT_FAILURE;
     }
-	printf("DEBUG: got here\n");
-    fseek(fp1, 0L, SEEK_END); // file pointer at end of file
+
+    fseekCheck = fseek(fp1, 0L, SEEK_END); // file pointer at end of file
+    
+    if(fseekCheck != 0){
+    	printf("fseek failed.");
+    	return EXIT_FAULURE;
+    }
 
     pos = ftell(fp1);
 
     fseek(fp1, 0L, SEEK_SET); // file pointer set at start
+    
+    if(fseekCheck != 0){
+    	printf("fseek failed.");
+    	return EXIT_FAULURE;
+    }
 
     while (pos--)
     {
